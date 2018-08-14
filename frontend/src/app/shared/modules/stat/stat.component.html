@@ -1,0 +1,69 @@
+<div class="card card-inverse {{bgClass}}">
+    <div class="card-header">
+        <div class="row">
+            <div class="col col-xs-3">
+                <i class="fa {{icon}} fa-5x"></i>
+            </div>
+            <div class="col col-xs-9 text-right">
+                <!-- <div class="d-block huge">{{count}}</div> -->
+                <div class="d-block huge">{{count?count:0}}</div>
+                <div class="d-block">{{label}}</div>
+                <!-- <div class="d-block">{{link}}</div> -->
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" (click)=viewDetails(link)>
+           <!-- <div *ngIf="geofences"> <span class="float-right">Edit Details {{data}}</span></div> -->
+        <span class="float-left">View Details {{data}}</span>
+        <a href="javascript:void(0)" class="float-right card-inverse">
+            <span ><i class="fa fa-arrow-circle-right"></i></span>
+        </a>
+    </div>
+    
+    <!-- <div *ngIf="geofences" class="card-footer" (click)=viewDetails(link)>
+            <!-- <div *ngIf="geofences"> <span class="float-right">Edit Details {{data}}</span></div> -->
+       <!--    <span class="float-left">Edit Details {{data}}</span>
+         <a href="javascript:void(0)" class="float-right card-inverse">
+             <span ><i class="fa fa-arrow-circle-right"></i></span>
+         </a>
+     </div> -->
+    
+</div>
+    <!-- <div class="card card-inverse {{bgClass}}">
+        <div class="card-header">
+            <div class="row">
+                <div class="col col-xs-3">
+                    <i class="fa {{icon}} fa-5x"></i>
+                </div>
+                <div class="col col-xs-9 text-right">
+                    <div class="d-block huge">{{count?count:0}}</div>
+                    <div class="d-block">{{label}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" (click)=viewDetails(link)>
+            <span class="float-left">View Details {{data}}</span>
+            <a href="javascript:void(0)" class="float-right card-inverse">
+                <span ><i class="fa fa-arrow-circle-right"></i></span>
+            </a>
+        </div>
+        
+    </div> -->
+
+
+<p-dialog *ngIf="geofences" header="Edit Radius" [(visible)]="showRadiusDetails" modal="modal"
+height="200" width="400" [responsive]="true">
+
+Radius:
+<!-- <div *ngFor="let geofrnce of geofences"> -->
+<td>
+  <input type="text" [(ngModel)]="geofences.radius" />
+</td>
+<!-- </div> -->
+<br>
+<td>
+  <input type="button" value="update" (click)="updateRadius(geofences)" class="btn btn-success" />
+</td>
+<td>
+  <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+</td></p-dialog>

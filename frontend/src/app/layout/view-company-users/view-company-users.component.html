@@ -1,0 +1,64 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<p-dataTable [tableStyle]="{'table-layout':'auto'}"[value]="compUserArr">
+  
+  <p-column field="full_name" header="Full Name"></p-column>
+  <p-column [styleClass]="adjust" field="email" header="Email"></p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      createdAt
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      {{user.created_at|date: 'dd/MM/yyyy'}}
+    </ng-template>
+  </p-column>
+    <p-column>
+    <ng-template pTemplate="header">
+      Phone No
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      {{user.phone_no|phoneNo}}
+    </ng-template>
+  </p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      Action
+    </ng-template>
+   
+    <ng-template let-user="rowData" pTemplate="body">
+      <i [ngClass]="user.status == 1?'fa fa-user':'fa fa-user-times'" aria-hidden="true" (click)="user.status == 1?disableCompany(user._id):enableCompany(user._id)"
+        [pTooltip]="user.status == 1 ? 'Disable Company' : 'Enable Company'" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-trash" aria-hidden="true" (click)="deleteCompany(user._id)" pTooltip="Delete Company" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-pencil" aria-hidden="true" pTooltip="Edit company user"(click)="editUser(user._id)" tooltipPosition="bottom"></i>
+    </ng-template>
+  </p-column>
+</p-dataTable>
+<!-- <p-paginator [rows]="20" [totalRecords]="60" (onPageChange)="paginate($event)"></p-paginator> -->
+<p-paginator rows="20" totalRecords="{{records}}" pageLinkSize="3" (onPageChange)="paginate($event)"
+></p-paginator>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+
+<p-dialog header="Edit Company user" [(visible)]="display" modal="modal" height="400" width="400" [responsive]="true">
+
+  Name:
+    <td>
+        <input type="text" [(ngModel)]="userDetails.full_name" />
+    </td><br>
+    Email:
+    <td>
+        <input type="text"[(ngModel)]="userDetails.email" />
+    </td><br>
+    Phone Number:
+    <td>
+        <input type="text" [(ngModel)]="userDetails.phone_no" />
+    </td><br>
+    <td>
+        <input type="button" (click)="backClicked()" value="update" (click)="updateUser(userDetails)" class="btn btn-success" />
+    </td>
+    <td>
+        <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+    </td>
+ 
+</p-dialog>
+
+<!-- <button type="button" [(visible)]="display" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show"></button> -->

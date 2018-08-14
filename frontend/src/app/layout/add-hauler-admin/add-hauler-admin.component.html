@@ -1,0 +1,47 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl> 
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Forms'" [icon]="'fa-edit'"></app-page-header>-->
+
+  <div class="row">
+    <div class="col-lg-6">
+
+      <form [formGroup]="haulerForm" role="form" (submit)="addHauler()">
+        <fieldset class="form-group">
+          <label>Full Name</label>
+          <input formControlName="full_name" class="form-control" placeholder="Full Name">
+          <p *ngIf="haulerForm.controls['full_name'].hasError('required') && isSubmited" class="error-msg">Full name is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>E-mail</label>
+          <input formControlName="email" type="email" class="form-control" placeholder="E-mail">
+          <p *ngIf="(haulerForm.controls['email'].hasError('required')||haulerForm.controls['email'].hasError('email')) && isSubmited" class="error-msg">Enter a valid email address</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Company Name</label>
+          <input formControlName="company_name" class="form-control" placeholder="Company Name">
+          <p *ngIf="haulerForm.controls['company_name'].hasError('required') && isSubmited" class="error-msg">Company name is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Phone No</label>
+          <input formControlName="phone_no"ngxPhoneMask class="form-control" placeholder="Phone No.">
+          <p *ngIf="haulerForm.controls['phone_no'].hasError('required') && isSubmited" class="error-msg">Phone No. is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Password</label>
+          <input formControlName="password" type="password" class="form-control" placeholder="Password">
+          <p *ngIf="haulerForm.controls['password'].hasError('required') && isSubmited" class="error-msg">Password is required</p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-secondary">Save</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+
+      </form>
+
+    </div>
+  </div>
+  <!-- /.row -->
+</div>

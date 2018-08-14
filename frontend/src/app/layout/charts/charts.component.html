@@ -1,0 +1,438 @@
+<div  [@routerTransition]>
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<div *ngIf="dayFlag">
+    <app-page-header [heading]="'Reports'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="row" *ngIf="lineChartDayData">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="custom-hdr">
+                        <div class="custom-hdr-left">
+                            <h3>Line Chart</h3>
+                        </div>
+                        <div class="custom-hdr-right">
+                            <h5>X Axis:
+                                <strong> Date</strong>
+                            </h5>
+                            <h5>Y Axis:<strong> bbl/day</strong></h5>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="lineChartDayData" class="card-block">
+                    <!-- <p *ngFor="let vol of tanksArr"> -->
+                    <canvas baseChart height="130" [datasets]="lineChartDayData" [labels]="lineChartDayLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                        [legend]="lineChartLegend" [chartType]="lineChartType">
+                    </canvas>
+                    <!-- </p> -->
+                </div>
+            </div>
+
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime)" [value]="1" [(ngModel)]="selectTime" [checked]="checked">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onChange($event,selectTime2)" [value]="2" name="radio" [(ngModel)]="selectTime">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime3)" [value]="3" [(ngModel)]="selectTime">
+                <span class="radio"></span>
+                Year
+            </label>
+
+            <!-- 
+            <label>Select Time</label>
+            <select #tc (change)="onChange($event,tc)" [(ngModel)]="selectTime">
+                <option *ngFor="let user of lUsers" [value]="user.id">
+                    {{user.Name}}
+                </option>
+            </select> -->
+            <!-- <label>Select Pads</label>
+            <select  (change)="fetchsingleLineData(tankId)" name="tankid" [(ngModel)]="tankId">
+                <option  [selected] value="all">All</option>{{fetchPads}}
+                <option *ngFor="let select of tanksArray" [value]="select._id">
+                    {{select.tank_name}}
+                </option>
+            </select> -->
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchsingleLineData(tankId)" [dataKey]="_id" filter="false"
+                [(ngModel)]="selectedDays" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+ ' )'}}</div>
+                </ng-template>
+            </p-multiSelect>
+            <!-- {{selectedCities1}} -->
+        </div>
+    </div>
+</div>
+
+<div *ngIf="monthFlag">
+    <app-page-header [heading]="'Reports'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="custom-hdr">
+                        <div class="custom-hdr-left">
+                            <h3>Line Chart</h3>
+                        </div>
+                        <div class="custom-hdr-right">
+                            <h5>X Axis:
+                                <strong> Month</strong>
+                            </h5>
+                            <h5> Y Axis: <strong> bbl/month</strong></h5>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div *ngIf="lineChartMonthData" class="card-block">
+                    <!-- <p *ngFor="let vol of tanksArr"> -->
+                    <canvas baseChart height="130" [datasets]="lineChartMonthData" [labels]="lineChartMonthLabels" [options]="lineChartOptions"
+                        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType">
+                    </canvas>
+                    <!-- </p> -->
+                </div>
+            </div>
+
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime)" [value]="1" [(ngModel)]="selectTime2" [checked]="checked">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onChange($event,selectTime2)" [value]="2" name="radio" [(ngModel)]="selectTime2">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime3)" [value]="3" [(ngModel)]="selectTime2">
+                <span class="radio"></span>
+                Year
+            </label>
+
+
+            <!-- <label>Select Time</label>
+            <select #tc (change)="onChange($event,tc)" [(ngModel)]="selectTime">
+                <option *ngFor="let user of lUsers" [value]="user.id">
+                    {{user.Name}}
+                </option>
+            </select> -->
+            <!-- <label>Select Tank</label>
+            <select (change)="fetchsingleLineDataMonth(tankId)" name="tankid" [(ngModel)]="tankId">
+                <option  [selected] value="all">All</option>
+                <option *ngFor="let select of tanksArray" [value]="select._id">
+                    {{select.tank_name}}
+                </option>
+            </select> -->
+
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchsingleLineDataMonth(tankId)" [dataKey]="_id"
+                filter="false" [(ngModel)]="selectedMonth" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+ ' )'}}</div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="yearFlag">
+    <app-page-header [heading]="'Reports'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="custom-hdr">
+                        <div class="custom-hdr-left">
+                            <h3>Line Chart</h3>
+                        </div>
+                        <div class="custom-hdr-right">
+                            <h5>X Axis:
+                                <strong> Year</strong>
+                            </h5>
+                            <h5> Y Axis:<strong> bbl/Year</strong></h5>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-block">
+                    <!-- <p *ngFor="let vol of tanksArr"> -->
+                    <canvas baseChart height="130" [datasets]="lineChartYearData" [labels]="lineChartYearLabels" [options]="lineChartOptions"
+                        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType">
+                    </canvas>
+                    <!-- </p> -->
+                </div>
+
+
+            </div>
+
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime)" [value]="1" [(ngModel)]="selectTime3">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onChange($event,selectTime2)" [value]="2" name="radio" [(ngModel)]="selectTime3">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onChange($event,selectTime3)" [value]="3" [(ngModel)]="selectTime3" [checked]="checked">
+                <span class="radio"></span>
+                Year
+            </label>
+
+            <!-- <label>Select Time</label>
+            <select #tc (change)="onChange($event,tc)" [(ngModel)]="selectTime">
+                <option *ngFor="let user of lUsers" [value]="user.id">
+                    {{user.Name}}
+                </option>
+            </select> -->
+            <!-- <label>Select Tank</label>
+            <select  (change)="fetchsingleLineDataYear(tankId)" name="tankid" [(ngModel)]="tankId">
+                <option  [selected] value="all">All</option>
+                <option *ngFor="let select of tanksArray" [value]="select._id">
+                    {{select.tank_name}}
+                </option>
+            </select> -->
+
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchsingleLineDataYear(tankId)" [dataKey]="_id"
+                filter="false" [(ngModel)]="selectedYear" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+')'}}</div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="row" *ngIf="pieChartData.length>0">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                        <div class="custom-hdr">
+                                <div class="custom-hdr-left">
+                                    <h3>Pie Chart</h3>
+                                </div>
+                                <div class="custom-hdr-right">
+                                    <h5>bbl: <strong> {{pieChartValue}} </strong></h5>
+                                </div>
+                            </div>
+                </div>
+                <div class="card-block">
+                    <canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+
+            </div>
+
+            <label class="custom-radio">
+                <input type="radio" name="daypie" (click)="fetchDayPieChart()" [value]="1" [(ngModel)]="pieTime" [checked]="checked">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="fetchMonthPieChart()" [value]="2" name="monthPie" [(ngModel)]="pieTime">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="yearPie" (click)="fetchYearPieChart()" [value]="3" [(ngModel)]="pieTime">
+                <span class="radio"></span>
+                Year
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="AllPie" (click)="pieChart()" [value]="4" [(ngModel)]="pieTime" [checked]="true">
+                <span class="radio"></span>
+                All
+            </label>
+
+        </div>
+    </div>
+</div>
+
+
+<!--- bar chart - -->
+
+
+<div *ngIf="dayBarFlag">
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="custom-hdr">
+                        <div class="custom-hdr-left">
+                            <h3>Bar Chart</h3>
+                        </div>
+                        <div class="custom-hdr-right">
+                            <h5>X Axis:
+                                <strong> Date</strong>
+                            </h5>
+                            <h5>Y Axis:<strong>bbl/Date </strong></h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="barChartDayData">
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="barChartDayData" [labels]="barChartDayLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                            [chartType]="barChartType">
+
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay)" [value]="1" [(ngModel)]="selectDay" [checked]="checked">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onReportChange($event,selectDay2)" [value]="2" name="radio" [(ngModel)]="selectDay">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay3)" [value]="3" [(ngModel)]="selectDay">
+                <span class="radio"></span>
+                Year
+            </label>
+
+
+            <!-- <label>Select Time</label>
+            <select #bar (change)="onReportChange($event,bar)" [(ngModel)]="selectDay">
+                <option *ngFor="let select of reportType" [value]="select.id">
+                    {{select.Name}}
+                </option>
+            </select> -->
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchsingleBarData(tankId)" [dataKey]="_id" filter="false"
+                [(ngModel)]="selectedBarDays" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+ ' )'}}</div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div *ngIf="monthBarFlag">
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                        <div class="custom-hdr">
+                                <div class="custom-hdr-left">
+                                    <h3>Bar Chart</h3>
+                                </div>
+                                <div class="custom-hdr-right">
+                                    <h5>X Axis:<strong>   Month</strong></h5>
+                                    <h5>Y Axix:<strong> bbl/Month</strong></h5>
+                                </div>
+                            </div>
+                </div>
+
+                <div *ngIf="barChartMonthData">
+                    <div style="display: block">
+                        <canvas baseChart [datasets]="barChartMonthData" [labels]="barChartMonthLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                            [chartType]="barChartType">
+
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay)" [value]="1" [(ngModel)]="selectDay2" [checked]="checked">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onReportChange($event,selectDay2)" [value]="2" name="radio" [(ngModel)]="selectDay2">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay3)" [value]="3" [(ngModel)]="selectDay2">
+                <span class="radio"></span>
+                Year
+            </label>
+            <!-- <label>Select Time</label>
+            <select #bar (change)="onReportChange($event,bar)" [(ngModel)]="selectDay">
+                <option *ngFor="let select of reportType" [value]="select.id">
+                    {{select.Name}}
+                </option>
+            </select> -->
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchsingleBarDataMonth(tankId)" [dataKey]="_id"
+                filter="false" [(ngModel)]="selectedBarMonth" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+ ' )'}}</div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="yearBarFlag">
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                        <div class="custom-hdr">
+                                <div class="custom-hdr-left">
+                                    <h3>Bar Chart</h3>
+                                </div>
+                                <div class="custom-hdr-right">
+                                    <h5>X Axis:<strong>   Year</strong></h5>
+                                    <h5>Y Axis:<strong> bbl/Year</strong></h5>
+                                </div>
+                            </div>
+                </div>
+
+                <div *ngIf="barChartYearData">
+                    <div style="display: block;">
+                        <canvas baseChart [datasets]="barChartYearData" [labels]="barChartYearLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                            [chartType]="barChartType">
+
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay)" [value]="1" [(ngModel)]="selectDay3">
+                <span class="radio"></span>
+                Day
+            </label>
+            <label class="custom-radio">
+                <input type="radio" (click)="onReportChange($event,selectDay2)" [value]="2" name="radio" [(ngModel)]="selectDay3">
+                <span class="radio"></span>
+                Month
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="radio" (click)="onReportChange($event,selectDay3)" [value]="3" [(ngModel)]="selectDay3" [checked]="checked">
+                <span class="radio"></span>
+                Year
+            </label>
+            <!-- <label>Select Time</label>
+            <select #bar (change)="onReportChange($event,bar)" [(ngModel)]="selectDay">
+                <option *ngFor="let select of reportType" [value]="select.id">
+                    {{select.Name}}
+                </option>
+            </select> -->
+            <p-multiSelect [options]="tanksArray" [style]="{width:'30%'}" (onChange)="fetchingleBarDataYear(tankId)" [dataKey]="_id"
+                filter="false" [(ngModel)]="selectedBarYear" optionLabel="tank_name">
+                <ng-template let-tank pTemplate="item">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{tank.value.tank_name +'('+tank.value.padId.pad_name+ ' )'}}</div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+</div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>

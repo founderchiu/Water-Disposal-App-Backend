@@ -1,0 +1,26 @@
+.custom-radio{
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 30px 20px 0;
+    padding: 0px 0 0px 19px;
+    position: relative;
+    font-size: 15px;
+}
+.custom-radio input[type="radio"] { display: none; }
+
+.custom-radio span.radio { background: #fff; border: solid 2px #b5b5b5; border-radius: 50%; cursor: pointer; display: block; height: 12px; left: 0; margin: 0px; left: 0; position: absolute; top: 3px; width: 12px; }
+
+.custom-radio span.radio:after { border-radius: 50%; content: ""; height: 100%; left:0; position: absolute; top:0; bottom:0; right:0; margin:auto; transform: scale(2); -webkit-transform: scale(2); opacity: 0; transition: all 0.3s ease-in; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; width: 100%; }
+
+.custom-radio input[type='radio']:checked + span.radio:after { border-color: #85878a; background: #85878a; transform: scale(1); -webkit-transform: scale(1); opacity: 1; }
+
+.custom-radio input[type='radio']:disabled + span.radio, .custom-checkbox input[type='checkbox']:disabled + span.checkbox { cursor: not-allowed; opacity: 0.5 }
+
+.custom-radio input[type='radio']:disabled + span.radio:after { transform: scale(1); -webkit-transform: scale(1); opacity: 0.5; }
+
+.custom-hdr-left{ display: inline-block; width: 50%; 
+    h3 {font-size: 16px;}
+}
+.custom-hdr-right{width: 20%; float: right;
+    h5{margin: 0;font-size: 14px;}
+}

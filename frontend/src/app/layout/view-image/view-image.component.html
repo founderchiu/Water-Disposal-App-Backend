@@ -1,0 +1,24 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<p-dataTable [value]="fetchtImgData">
+    <p-column field="tank_name" header="Tank Name"></p-column>
+    <p-column field="volume" header="Volume"></p-column>
+    <p-column field="tank_no" header="tank_no"></p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      QrCode
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      <img [src]="user.qrcode_url">
+    </ng-template>
+  </p-column>
+</p-dataTable>
+
+<!-- <p-carousel [value]="fetchtImgData">
+  <ng-template let-user pTemplate="body">
+    <img [src]="user.qrcode_url">
+  </ng-template>
+</p-carousel> -->
+
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>

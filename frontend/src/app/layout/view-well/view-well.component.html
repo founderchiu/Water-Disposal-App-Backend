@@ -1,0 +1,59 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<p-dataTable [value]="wellsArr">
+  <p-column field="well_name" header="Well Name"></p-column>
+   <p-column field="well_no" header="Well Number"></p-column>
+   <p-column field="padId.pad_name" header="Pad Name"></p-column>
+ <p-column field="companyId.company_name" header="Company name"></p-column>
+ <p-column>
+    <ng-template pTemplate="header">
+      Action
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      <i [ngClass]="user.status == 1?'fa fa-user':'fa fa-user-times'" aria-hidden="true" (click)="user.status == 1?disableWell(user._id):enableWell(user._id)"
+        [pTooltip]="user.status == 1 ? 'Disable Well' : 'Enable Well'" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-trash" aria-hidden="true" (click)="deleteWells(user._id)" pTooltip="Delete Well" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-pencil" aria-hidden="true" pTooltip="Edit well" (click)="editWell(user._id)" tooltipPosition="bottom"></i>
+    </ng-template>
+  </p-column>
+</p-dataTable>
+<p-paginator rows="20" totalRecords="{{records}}" pageLinkSize="3" (onPageChange)="paginate($event)"
+></p-paginator>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+
+<p-dialog *ngIf="wellDetails" header="Edit Well Details" (onHide)="formReset()" [(visible)]="showWellDetails" modal="modal"
+height="500" width="400" [responsive]="true">
+
+Well Name:
+<td>
+  <input type="text" [(ngModel)]="wellDetails.well_name" />
+</td>
+<br>Well Number:
+<td>
+  <input type="number" [(ngModel)]="wellDetails.well_no" />
+</td>
+<br> Company Name
+<td>
+  <select [(ngModel)]="wellDetails.companyId" (change)="fetchPads($event)">
+    <option value="null" [selected]=true>Please select</option>
+    <option *ngFor="let c of compArr" [value]="c._id">{{c.company_name}}</option>
+  </select>
+</td>
+<br> Pad Name:
+<td>
+  <select [(ngModel)]="wellDetails.padId">
+    <option value="null" [selected]=true>Please select</option>
+    <option *ngFor="let c of padArr" [value]="c._id">{{c.pad_name}}</option>
+  </select>
+  <!-- <input type="text" [(ngModel)]="tankDetails.padId" /> -->
+</td>
+<br>
+<td>
+  <input type="button" value="update" (click)="updateWell(wellDetails)" class="btn btn-success" />
+</td>
+<td>
+  <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+</td>
+
+</p-dialog>

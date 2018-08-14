@@ -1,0 +1,81 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Forms'" [icon]="'fa-edit'"></app-page-header>-->
+
+  <div class="row">
+    <div class="col-lg-6">
+
+      <form [formGroup]="tanksForm" role="form" (submit)="addTank()">
+        <fieldset class="form-group">
+          <label>Tank Name</label>
+          <input formControlName="tank_name" class="form-control" placeholder="Tank Name">
+          <p *ngIf="tanksForm.controls['tank_name'].hasError('required') && isSubmited" class="error-msg">Tank Name is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Tank Number</label>
+          <input formControlName="tank_no" class="form-control" placeholder="Tank Number">
+          <p *ngIf="tanksForm.controls['tank_no'].hasError('required') && isSubmited" class="error-msg">Tank No. is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Company Name</label>
+          <select formControlName="company_name" class="form-control" (change)="fetchPads($event)">
+            <option value="null" [selected]=true>Please select</option>
+            <option *ngFor="let c of compArr" [value]="c._id">{{c.company_name}}</option>
+          </select>
+          <p *ngIf="tanksForm.controls['company_name'].hasError('required') && isSubmited" class="error-msg">Company name is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Pad Name</label>
+          <select formControlName="pad_name" class="form-control" (change)=fetchwells($event);fetchPadsWithLatLong($event)>
+            <option value="null" [selected]=true>Please select</option>
+            <option *ngFor="let c of padArr" [value]="c._id">{{c.pad_name}}</option>
+          </select>
+          <p *ngIf="tanksForm.controls['pad_name'].hasError('required') && isSubmited" class="error-msg">Pad name is required.</p>
+        </fieldset>
+           
+        <fieldset class="form-group">
+          <label>Well Name</label>
+          <select formControlName="well_name" class="form-control">
+            <option value="null" [selected]=true>Please select</option>
+            <option *ngFor="let well of wellArr" [value]="well._id">{{well.well_name}}</option>
+          </select>
+          <p *ngIf="tanksForm.controls['well_name'].hasError('required') && isSubmited" class="error-msg">well name is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Lattitude</label>
+          <input formControlName="lat" type="text" class="form-control" placeholder="Lattitude">
+         
+          <p *ngIf="tanksForm.controls['lat'].hasError('required') && isSubmited" class="error-msg">Lattitude is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Longitude</label>
+          <input formControlName="long" type="text" class="form-control" placeholder="Longitude">
+          
+          <p *ngIf="tanksForm.controls['long'].hasError('required') && isSubmited" class="error-msg">Longitude is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Volume</label>
+          <input formControlName="volume" type="text" class="form-control" placeholder="Volume">
+          <p *ngIf="tanksForm.controls['volume'].hasError('required') && isSubmited" class="error-msg">Volume is required.</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Type</label>
+          <input formControlName="type" type="text" class="form-control" placeholder="Type">
+          <p *ngIf="tanksForm.controls['type'].hasError('required') && isSubmited" class="error-msg">Type is required.</p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-secondary">Save</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        
+      </form>
+    </div>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+</div>

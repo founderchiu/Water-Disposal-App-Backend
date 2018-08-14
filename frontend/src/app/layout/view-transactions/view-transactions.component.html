@@ -1,0 +1,45 @@
+<div  [@routerTransition]>
+  <p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<p-dataTable  [value]="transactionData">
+  <p-column field="volume" header="Volume"></p-column>
+   <p-column field="invoice_no" header="Invoice Number"></p-column>
+   <p-column field="padId.pad_name" header="Pad Name"></p-column>
+   <p-column field="tank_id.tank_name" header="Tank Name"></p-column>
+ <p-column field="hauler_id.full_name" header="Hauler name"></p-column>
+ <p-column field="hauler_id.company_name" header="Company Name"></p-column>
+ <p-column>
+  <ng-template pTemplate="header">
+    Transaction Date
+  </ng-template>
+  <ng-template let-user="rowData" pTemplate="body">
+    {{user.created_at|date: 'dd/MM/yyyy'}} {{user.created_at|date: 'hh:MM a'}}
+  </ng-template>
+  
+</p-column>
+<!-- <p-column>
+  <ng-template pTemplate="header">
+  Time
+  </ng-template>
+  <ng-template let-user="rowData" pTemplate="body">
+    {{user.created_at|date: 'hh:MM:ss'}}
+  </ng-template>
+  
+</p-column> -->
+ <!-- <p-column> -->
+    <!-- <ng-template pTemplate="header">
+      Action
+    </ng-template> -->
+    <!-- <ng-template let-user="rowData" pTemplate="body">
+      <i [ngClass]="user.status == 1?'fa fa-user':'fa fa-user-times'" aria-hidden="true" (click)="user.status == 1?disableWell(user._id):enableWell(user._id)"
+        [pTooltip]="user.status == 1 ? 'Disable Well' : 'Enable Well'" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-trash" aria-hidden="true" (click)="deleteWells(user._id)" pTooltip="Delete Well" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-pencil" aria-hidden="true" pTooltip="Edit well" (click)="editWell(user._id)" tooltipPosition="bottom"></i>
+    </ng-template> -->
+  <!-- </p-column> -->
+</p-dataTable>
+<p-paginator rows="20" totalRecords="{{records}}" pageLinkSize="3" (onPageChange)="paginate($event)"
+></p-paginator>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+</div>

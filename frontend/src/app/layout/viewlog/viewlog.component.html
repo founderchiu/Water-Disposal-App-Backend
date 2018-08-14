@@ -1,0 +1,35 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<br>
+
+<p-dataTable [value]="logArr">
+  
+  <p-column field="padId.pad_name" header="Pad Name"></p-column>
+  <p-column field="userId.full_name" header="User Name"></p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      Entry Time 
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      {{user.entry_time|date: 'dd/MM/yyyy'}} {{user.entry_time|date: 'hh:MM a'}}
+    </ng-template>
+    
+  </p-column>
+
+  <p-column>
+    <ng-template pTemplate="header">
+      Exit Time 
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      {{user.exit_time|date: 'dd/MM/yyyy'}}  {{user.exit_time|date: 'hh:MM a'}}
+    </ng-template>
+    
+  </p-column>
+
+</p-dataTable>
+<p-paginator rows="20" totalRecords="{{records}}" pageLinkSize="3" (onPageChange)="paginate($event)"
+></p-paginator>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+
+

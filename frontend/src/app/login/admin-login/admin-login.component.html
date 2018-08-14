@@ -1,0 +1,48 @@
+<div class="login-page" [@routerTransition]>
+  <div class="row">
+    <div class="col-md-4 push-md-4">
+      <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+      <h1>Water Disposal System</h1>
+      <form [formGroup]="loginForm" (submit)="login()">
+        <div class="form-content">
+          <!--<div class="form-group">
+            <select type="text" class="form-control input-underline input-lg" formControlName="role">
+              <option style="background-color:black " value="" [selected]=true>Please Select Role</option>
+              <option style="background-color:black ">Company</option>
+              <option style="background-color:black ">Water Hauler</option>
+            </select>
+          </div>
+          <span class="text-danger">
+                    <span *ngIf="loginForm.controls['role'].hasError('required') && isSubmited">
+                    Please Enter Role
+                    </span>
+          </span>-->
+          <div class="form-group">
+            <input type="email" class="form-control input-underline input-lg" formControlName="email" placeholder="E-mail">
+          </div>
+
+          <span class="text-danger">
+                    <span *ngIf="loginForm.controls['email'].hasError('required') && isSubmited">
+                    Please Enter your E-mail
+                    </span>
+          </span>
+
+
+          <div class="form-group">
+            <input formControlName="password" type="password" id="inputPassword" class="form-control input-underline input-lg" placeholder="Password"
+              required>
+            <span class="text-danger">
+                    <span *ngIf="loginForm.controls['password'].hasError('required') && isSubmited">
+                    Please Enter your password
+                    </span>
+            </span>
+          </div>
+        </div>
+        <br>
+        <button type="submit" class="btn rounded-btn">Log in1</button>
+        <!--<a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a> &nbsp;-->
+        <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
+      </form>
+    </div>
+  </div>
+</div>

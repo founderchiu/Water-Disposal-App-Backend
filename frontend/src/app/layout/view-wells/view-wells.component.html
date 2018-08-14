@@ -1,0 +1,96 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl>
+<div>
+  <table>
+    <tr>
+      <td>
+        <input type="file" name="uploads" #fileImportInput name="File Upload" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeEvent($event)"
+          accept=".csv" value={{selectedImageFile}}/>
+      </td>
+      <td style="padding: 5px;">
+        <input type="button" name="Upload" id="txtFileReset" class="btn btn-primary" (click)="upload()" value="Upload" />
+      </td>
+      <td style="padding: 5px;">
+        <input type="button" name="Reset" id="txtFileReset" class="btn btn-primary" (click)="fileReset()" value="Reset" />
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<div>
+  <button (click)="exportTankCsv()">Export Csv</button>
+</div>
+<br>
+<p-dataTable [value]="tanksArr">
+  <p-column field="tank_name" header="Tank Name"></p-column>
+  <p-column field="padId.pad_name" header="Pad Name"></p-column>
+  <p-column field="wellId.well_name" header="Well Name"></p-column>
+  <p-column field="volume" header="Volume"></p-column>
+  <p-column field="type" header="Type"></p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      QrCode
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+    <div  class="bar_code_img">
+      <img [src]="user.qrcode_url" (click)="viewimage(user._id)">
+    </div>
+    
+    </ng-template>
+  </p-column>
+  <p-column>
+    <ng-template pTemplate="header">
+      Action
+    </ng-template>
+    <ng-template let-user="rowData" pTemplate="body">
+      <i [ngClass]="user.tank_status == true?'fa fa-user':'fa fa-user-times'" aria-hidden="true" (click)="user.tank_status == true?disableTank(user._id):enableTank(user._id)"
+        [pTooltip]="user.tank_status == true? 'Disable Tank' : 'Enable Tank'" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-trash" aria-hidden="true" (click)="deleteTanks(user._id)" pTooltip="Delete Tank" tooltipPosition="bottom"></i>&nbsp;&nbsp;
+      <i class="fa fa-pencil" aria-hidden="true" pTooltip="Edit Tank" (click)="editTank(user._id)" tooltipPosition="bottom"></i>
+    </ng-template>
+  </p-column>
+</p-dataTable>
+<p-paginator rows="20" totalRecords="{{records}}" pageLinkSize="3" (onPageChange)="paginate($event)"></p-paginator>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<p-dialog header="Export csv" [(visible)]="display">
+  <input #email type="email" placeholder="Enter your email">
+  <button style="cursor:pointer" (click)="exportCsv(email)">Export</button>
+</p-dialog>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+
+
+<p-dialog *ngIf="tankDetails" header="Edit Tank Details" (onHide)="formReset()" [(visible)]="showTankDetails" modal="modal"
+  height="500" width="400" [responsive]="true">
+
+  Tank Name:
+  <td>
+    <input type="text" [(ngModel)]="tankDetails.tank_name" />
+  </td>
+  <br> Volume:
+  <td>
+    <input type="number" [(ngModel)]="tankDetails.volume" />
+  </td>
+  <br> Company Name
+  <td>
+    <select [(ngModel)]="tankDetails.companyId" (change)="fetchPads($event)">
+      <option value="null" [selected]=true>Please select</option>
+      <option *ngFor="let c of compArr" [value]="c._id">{{c.company_name}}</option>
+    </select>
+  </td>
+  <br> Pad Name:
+  <td>
+    <select [(ngModel)]="tankDetails.padId">
+      <option value="null" [selected]=true>Please select</option>
+      <option *ngFor="let c of padArr" [value]="c._id">{{c.pad_name}}</option>
+    </select>
+    <!-- <input type="text" [(ngModel)]="tankDetails.padId" /> -->
+  </td>
+  <br>
+  <td>
+    <input type="button" value="update" (click)="updateTank(tankDetails)" class="btn btn-success" />
+  </td>
+  <td>
+    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+  </td>
+
+</p-dialog>
+<!-- <p-lightbox [images]="images"></p-lightbox> -->

@@ -1,0 +1,44 @@
+<p-growl baseZIndex="1" [(value)]="msgs"></p-growl> 
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Forms'" [icon]="'fa-edit'"></app-page-header>-->
+
+  <div class="row">
+    <div class="col-lg-6">
+
+      <form [formGroup]="padsForm" role="form" (submit)="addPads()">
+        <fieldset class="form-group">
+          <label>Pad Name</label>
+          <input formControlName="pad_name" class="form-control" placeholder="Pad Name">
+          <p *ngIf="padsForm.controls['pad_name'].hasError('required') && isSubmited" class="error-msg">Pad Name is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Company Name</label>
+          <select formControlName="company_name" class="form-control">
+            <option value="null" [selected]=true>Please select</option>
+            <option *ngFor="let c of compArr" [ngValue]="c">{{c.company_name}}</option>
+          </select>
+          <p *ngIf="padsForm.controls['company_name'].hasError('required') && isSubmited" class="error-msg">Company name is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Lattitude</label>
+          <input formControlName="lat" type="text" class="form-control" placeholder="Lattitude">
+          <p *ngIf="padsForm.controls['lat'].hasError('required') && isSubmited" class="error-msg">Lattitude is required</p>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Longitude</label>
+          <input formControlName="long" type="text" class="form-control" placeholder="Longitude">
+          <p *ngIf="padsForm.controls['long'].hasError('required') && isSubmited" class="error-msg">Longitude is required</p>
+        </fieldset>
+
+        <button type="submit" class="btn btn-secondary">Save</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+
+      </form>
+
+    </div>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+</div>

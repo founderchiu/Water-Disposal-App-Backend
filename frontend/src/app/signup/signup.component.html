@@ -1,0 +1,38 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row">
+        <div class="col-md-4 push-md-4">
+            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+            <h1>Water Disposal System</h1>
+                    <form #registerForm="ngForm" (submit)="signup(registerForm)">
+                <div class="form-content">
+                  <div class="form-group">
+                      <input type="text" class="form-control input-underline input-lg" #usernameRef="ngModel"  name="userName" id="username" [(ngModel)]="currentuser.userName" placeholder="User-Name" required>
+                  </div>
+<!--
+                  <span *ngIf="usernameRef.errors && (usernameRef.dirty || usernameRef.touched || registerForm.submitted)" class="text-danger">
+                  <span [hidden]="!usernameRef.errors.required">
+                  Please Enter User Name
+                  </span>
+                  </span> -->
+
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg"  name="Email"  id="email" [(ngModel)]="currentuser.Email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg"   name="companyName" id="companyName"[(ngModel)]="currentuser.companyName" placeholder="Company Name">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg"   name="password" id="Password" [(ngModel)]="currentuser.password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg"   name="repeatPassword" id="repeatPassword" [(ngModel)]="currentuser.repeatPassword" placeholder="Repeat Password">
+                    </div>
+                </div>
+                  <button type="submit" class="btn rounded-btn" >Register</button>
+                  <!-- <button type="button" class="btn rounded-btn" routerLink="/users/list">userList</button> -->
+                <!-- <a class="btn rounded-btn" [routerLink]="['/login']"> Log in3 </a> -->
+            </form>
+        </div>
+    </div>
+</div>

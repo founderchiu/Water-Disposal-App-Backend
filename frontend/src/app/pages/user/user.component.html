@@ -1,0 +1,22 @@
+
+<!-- <div class="card mb-3" [@routerTransition]> -->
+                <div class="card-header">Users List</div>
+                <table class="card-block table table-hover">
+                    <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Company Name</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                   <tr *ngFor="let user of userList; let i = index;">
+                       <td scope="row"><a href [routerLink]="['/users/edit', user._id]">{{user.userName}}</a></td>
+                        <td>{{user.companyName}}</td>
+                        <td>{{user.Email}}</td>
+                          <!-- <button type="button" [routerLink]="['/users/edit',user._id]" (click)="editUser">Edit </button> -->
+                          <button type="button" (click)="deleteUser(user._id, i)">Delete </button>
+                    </tr>
+                    </tbody>
+                </table>
+            <!-- </div> -->
